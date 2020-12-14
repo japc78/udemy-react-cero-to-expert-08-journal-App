@@ -4,7 +4,7 @@ export const useForm = ( initialState = {} ) => {
 	const [values, setValues] = useState( initialState );
 
 
-	//Para resetar el formulario
+	//Para reset el formulario
 	const reset = () => {
 		setValues( initialState )
 	}
