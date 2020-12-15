@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
-import { validator } from 'validator';
-import { useDispatch } from 'react-redux';
+import validator from 'validator';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { setError, removeError } from '../../actions/ui'
 // https://www.npmjs.com/package/validator
 
@@ -24,6 +25,7 @@ export const RegisterScreen = () => {
     */
 
    const dispatch = useDispatch();
+   const { msgError } = useSelector(state => state.ui);
 
    const [ formValues, handleInputChange] = useForm({
         name: 'Bitcero',
@@ -32,23 +34,23 @@ export const RegisterScreen = () => {
         confirmPassword: '12345'
    })
 
-   const { name, email, password, confirmPassword} = formValues;
+    const { name, email, password, confirmPassword} = formValues;
 
     const handleRegister = (e) => {
         e.preventDefault();
         // console.log(name, email, password, confirmPassword);
         if (isFormValid()) {
-
+            console.log('formulario correcto');
         }
     }
 
     const isFormValid = () => {
 
-        if ( name.trim().length === 0 ) {
+        if ( validator.isEmpty(name) ) {
             // console.log('Name is required');
             dispatch(setError('Name is required'));
             return false;
-        } else if ( email.trim().length === 0 || !validator.isEmail(email)){
+        } else if (validator.isEmpty(email) || !validator.isEmail(email)){
             // console.log('Email is not valid');
             dispatch(setError('Email is not valid'));
             return false;
@@ -67,9 +69,14 @@ export const RegisterScreen = () => {
             <h3 className="auth__title">Register</h3>
 
             <form onSubmit = { handleRegister }>
-                <div className="auth__alert-error">
-                    <strong>Error</strong>
-                </div>
+                {
+                    // si hay msgError
+                    msgError &&
+                    (<div className="auth__alert-error">
+                        <strong>{ msgError }</strong>
+                    </div>)
+                }
+
 
                 <input onChange={ handleInputChange } className="auth__input" type="text" placeholder="Name" name="name" autoComplete="off" value={ name }/>
 
