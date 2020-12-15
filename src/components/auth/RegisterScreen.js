@@ -5,6 +5,7 @@ import validator from 'validator';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setError, removeError } from '../../actions/ui'
+import { startRegisterWithEmailPassword } from '../../actions/auth';
 // https://www.npmjs.com/package/validator
 
 export const RegisterScreen = () => {
@@ -30,8 +31,8 @@ export const RegisterScreen = () => {
    const [ formValues, handleInputChange] = useForm({
         name: 'Bitcero',
         email: 'dev@bitcero.com',
-        password: '12345',
-        confirmPassword: '12345'
+        password: '123456',
+        confirmPassword: '123456'
    })
 
     const { name, email, password, confirmPassword} = formValues;
@@ -40,7 +41,8 @@ export const RegisterScreen = () => {
         e.preventDefault();
         // console.log(name, email, password, confirmPassword);
         if (isFormValid()) {
-            console.log('formulario correcto');
+            // console.log('formulario correcto');
+            dispatch(startRegisterWithEmailPassword( email, password, name));
         }
     }
 
