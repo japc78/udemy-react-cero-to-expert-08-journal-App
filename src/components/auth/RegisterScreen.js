@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { validator } from 'validator';
+import { useDispatch } from 'react-redux';
+import { setError, removeError } from '../../actions/ui'
 // https://www.npmjs.com/package/validator
 
 export const RegisterScreen = () => {
@@ -21,6 +23,8 @@ export const RegisterScreen = () => {
         }
     */
 
+   const dispatch = useDispatch();
+
    const [ formValues, handleInputChange] = useForm({
         name: 'Bitcero',
         email: 'dev@bitcero.com',
@@ -32,28 +36,30 @@ export const RegisterScreen = () => {
 
     const handleRegister = (e) => {
         e.preventDefault();
-        if (isFormValid) {
+        // console.log(name, email, password, confirmPassword);
+        if (isFormValid()) {
 
         }
-        // console.log(name, email, password, confirmPassword);
-
-
     }
 
     const isFormValid = () => {
 
         if ( name.trim().length === 0 ) {
-            console.log('Name is required');
+            // console.log('Name is required');
+            dispatch(setError('Name is required'));
             return false;
-        } else if ( !validator.isEmail(email)){
-            console.log('Email is not valid');
+        } else if ( email.trim().length === 0 || !validator.isEmail(email)){
+            // console.log('Email is not valid');
+            dispatch(setError('Email is not valid'));
             return false;
         } else if ( password !== confirmPassword || password.length < 5) {
-            console.log('Password should be at least 6 character and match each other');
+            // console.log('Password should be at least 6 character and match each other');
+            dispatch(setError('Password should be at least 6 character and match each other'));
+            return false
         }
 
+        dispatch(removeError());
         return true;
-
     }
 
     return (
@@ -61,7 +67,7 @@ export const RegisterScreen = () => {
             <h3 className="auth__title">Register</h3>
 
             <form onSubmit = { handleRegister }>
-                <div class="auth__alert-error">
+                <div className="auth__alert-error">
                     <strong>Error</strong>
                 </div>
 
