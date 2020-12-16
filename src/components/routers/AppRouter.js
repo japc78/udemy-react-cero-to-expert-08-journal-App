@@ -1,14 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect
   } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { firebase } from '../../firebase/firebaseConfig'
+
 import { JournalScreen } from '../journal/JournalScreen';
 import { AuthRouter } from './AuthRouter';
+import { login } from '../../actions/auth';
+
 
 export const AppRouter = () => {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+
+            if (user?.uid) {
+                dispatch( login( user.uid, user.displayName) );
+            }
+            console.log(user);
+        });
+    }, [ dispatch ]);
+
     return (
         <Router>
             <div>
