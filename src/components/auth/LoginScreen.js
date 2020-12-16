@@ -1,7 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
+import validator from 'validator';
 import { startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
+import { removeError, setError } from '../../actions/ui';
 import { useForm } from '../../hooks/useForm'
 
 
@@ -10,8 +12,8 @@ export const LoginScreen = () => {
     const dispatch = useDispatch();
 
     const [ formValues, handleInputChange] = useForm({
-        email: 'dev@bitcero.es',
-        password: '1234'
+        email: 'dev@bitcero.com',
+        password: '123456'
     })
 
     const { email, password } = formValues;
@@ -20,7 +22,23 @@ export const LoginScreen = () => {
         e.preventDefault();
         // console.log(email, password);
 
-        dispatch(startLoginEmailPassword(email, password));
+        if (isFormValid) {
+            console.log('pasa');
+            dispatch(startLoginEmailPassword(email, password));
+        }
+    }
+
+    const isFormValid = () => {
+        if (validator.isEmpty(email) || !validator.isEmail(email)){
+            dispatch(setError('Email is not valid or empty'));
+            return false;
+        } else if ( validator.isEmpty(password) || password.length < 6) {
+            dispatch(setError('Password should be at least 6 character and match each other'));
+            return false
+        }
+
+        dispatch(removeError());
+        return true;
     }
 
     const handleGoogleLogin = () => {
@@ -31,7 +49,7 @@ export const LoginScreen = () => {
         <>
             <h3 className="auth__title">Login</h3>
 
-            <form onSubmit= { handleLogin}>
+            <form onSubmit= { handleLogin }>
                 <input onChange = { handleInputChange } className="auth__input" type="text" placeholder="email" name="email" autoComplete="off" value={ email } />
                 <input onChange = { handleInputChange } className="auth__input" type="password" placeholder="Password" name="password" value= { password} />
                 <button className="btn btn-primary btn-block" type="submit">Login</button>
