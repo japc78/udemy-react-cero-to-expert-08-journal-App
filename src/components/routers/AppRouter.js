@@ -6,14 +6,14 @@ import {
     Redirect
   } from "react-router-dom";
 import { JournalScreen } from '../journal/JournalScreen';
-import { AuthRouters } from './AuthRouters';
+import { AuthRouter } from './AuthRouter';
 
-export const AppRouters = () => {
+export const AppRouter = () => {
     return (
         <Router>
             <div>
                 <Switch>
-                    <Route path="/auth" component={AuthRouters}/>
+                    <Route path="/auth" component={AuthRouter}/>
                     <Route exact path="/" component={JournalScreen}/>
                     <Redirect to="/auth/login"/>
                 </Switch>
