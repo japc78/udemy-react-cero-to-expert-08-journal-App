@@ -13,12 +13,19 @@ export const NoteScreen = () => {
     const { title, body, url } = formValues;
 
     const activeId = useRef( note.id )
+    const activeUrl = useRef( note.url );
 
     useEffect(() => {
         if ( note.id !== activeId.current ) {
             reset( note );
             activeId.current = note.id;
         }
+
+        if (note.url !== activeUrl.current) {
+            reset( note );
+            activeUrl.current = note.url;
+        }
+
     }, [ note, reset ])
 
 
