@@ -5,8 +5,8 @@ export const useForm = ( initialState = {} ) => {
 
 
 	//Para reset el formulario
-	const reset = () => {
-		setValues( initialState )
+	const reset = ( newFormState = initialState ) => {
+		setValues( newFormState )
 	}
 
 
