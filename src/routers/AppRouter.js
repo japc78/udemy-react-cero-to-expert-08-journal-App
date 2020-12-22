@@ -5,13 +5,13 @@ import {
     Redirect
   } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { firebase } from '../../firebase/firebaseConfig'
+import { firebase } from '../firebase/firebaseConfig'
 
-import { JournalScreen } from '../journal/JournalScreen';
-import { AuthRouter } from './AuthRouter';
-import { login } from '../../actions/auth';
+import { login } from '../actions/auth';
 import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
+import { AuthRouter } from './AuthRouter';
+import { JournalScreen } from '../components/journal/JournalScreen';
 
 
 export const AppRouter = () => {
@@ -20,7 +20,6 @@ export const AppRouter = () => {
 
     // Para comprobar que el usuario este logueado
     const [checking, setChecking] = useState(true);
-
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
@@ -49,7 +48,7 @@ export const AppRouter = () => {
         <Router>
             <div>
                 <Switch>
-                    <PublicRoute exact path="/auth/login" component={ AuthRouter } isAuthenticated = { isLoggedIn }/>
+                    <PublicRoute  path="/auth" component={ AuthRouter } isAuthenticated = { isLoggedIn }/>
 					<PrivateRoute path="/" component={ JournalScreen } isAuthenticated = { isLoggedIn }/>
                     {/* <Route path="/auth" component={AuthRouter}/>
                     <Route exact path="/" component={JournalScreen}/> */}
