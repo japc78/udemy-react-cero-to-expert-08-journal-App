@@ -19,15 +19,12 @@ export const NoteScreen = () => {
             reset( note );
             activeId.current = note.id;
         }
-
     }, [ note, reset ])
 
 
     useEffect(() => {
         dispatch( activeNote(formValues.id, {...formValues}));
     }, [formValues, dispatch])
-
-    // date, title, body, url
 
     return (
         <div className="notes__main-content">
