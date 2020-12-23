@@ -7,6 +7,7 @@ import { removeError, setError } from '../../actions/ui';
 import { useForm } from '../../hooks/useForm'
 
 
+
 export const LoginScreen = () => {
 
     const dispatch = useDispatch();
@@ -52,7 +53,7 @@ export const LoginScreen = () => {
         <>
             <h3 className="auth__title">Login</h3>
 
-            <form onSubmit= { handleLogin }>
+            <form onSubmit= { handleLogin }  className="animate__animated animate__fadeIn animate_faster">
                 <input onChange = { handleInputChange } className="auth__input" type="text" placeholder="email" name="email" autoComplete="off" value={ email } />
                 <input onChange = { handleInputChange } className="auth__input" type="password" placeholder="Password" name="password" value= { password} />
                 <button className="btn btn-primary btn-block" type="submit" disabled= { loading }>Login</button>
