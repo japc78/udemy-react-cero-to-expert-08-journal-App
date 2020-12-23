@@ -46,6 +46,15 @@ export const notesReducer = (state = initialState, action) => {
                 )
             }
 
+        case types.notesDelete:
+            console.log(action.payload);
+            return {
+                ...state,
+                active: null,
+                //Se pasan las notas sin la eliminada
+                notes: state.notes.filter( note => note.id !== action.payload )
+            }
+
         default:
             return state;
     }
